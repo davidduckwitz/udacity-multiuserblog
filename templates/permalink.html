@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if user %}
+<aside>
+    <div class="btn-group">
+        {% if user.name == post.author %}       
+            <a class="btn btn-warning btn-xs" href="/blog/{{post.key().id()}}/edit">&#9998; Edit</a>        
+            <a class="btn btn-danger btn-xs" href="/blog/{{post.key().id()}}/removepost">&#10006; Delete</a>        
+        {% else %}        
+            <a class="btn btn-default btn-xs" href="/blog">&#9664; Go back</a>        
+            <a class="btn btn-success btn-xs" href="/blog/{{post.key().id()}}/like">&#9829; Like</a>        
+        {% endif %}
+    </div>
+</aside>
+{% endif %}
+
+{{post.render() | safe}}
+
+{% if user and post.comments %}
+
+<div class="post-comments">
+    <h2>Comments</h2><span>{{post.comments.count()}} comments</span>
+
+    {% for c in post.comments %}
+
+    <div class="panel panel-success">
+        <div class="panel-heading">{{ c.parent().name }} says:</div>
+        <div class="panel-body">{{ c.comment }}</div>
+		<div class="panel-footer">
+        {% if user.name == c.author %}
+        <a class="btn btn-warning btn-xs" href="/blog/{{post.key().id()}}/updatecomment/{{c.key().id()}}">update</a>
+        <span class="separator"> | </span>
+        <a class="btn btn-danger btn-xs" href="/blog/{{post.key().id()}}/deletecomment/{{c.key().id()}}">delete</a>
+        {% endif %}
+		</div>
+    </div>
+
+    {% endfor %}
+
+    <a class="btn btn-success" href="/blog/{{post.key().id()}}/newcomment">New comment</a>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

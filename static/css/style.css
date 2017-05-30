@@ -1,0 +1,57 @@
+body {
+	font-family: 'Lato', sans-serif;
+	color: #2d3c49;
+	font-weight: 300;
+}
+
+.hr {
+	border-top: 3px solid #7d97ad;
+}
+
+.text-muted {
+	color: #bcbbbb;
+}
+
+.text-thin {
+	font-weight: 100;
+}
+
+.title-super {
+	font-size: 60px;
+}
+
+.title-logo {
+	margin-top: 20px;	
+}
+
+.logo-color {
+	color: #02b3e4;
+}
+
+.color3 {
+	color: #7d97ad;
+}
+
+.logo {
+	max-height: 35px;
+}
+
+.navbar-7d97ad {
+	background-color: #7d97ad;
+	color: #fff;
+}
+
+.center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@media screen and (min-width: 1780px) {
+	
+	.container-fluid {
+		margin-left: 0px auto;
+		margin-right: 0px auto;
+		
+	}
+	
+}

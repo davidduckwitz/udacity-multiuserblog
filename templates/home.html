@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row"> <!-- Start Header Row -->
+	<div class="col-md-12">
+		<h2>Welcome to the Mainpage</h2><small> of Dave's Fullstack Web - Developer Phyton Unit!</small>
+	</div>
+</div> 
+<div class="row"> <!-- Start Header Row -->
+	<div class="col-md-6">
+	  <div class="panel panel-default">
+		<div class="panel-body">
+			<h2>Overview</h2>
+			<ul class="list-group">
+				<li class="list-group-item"><a href="/blog">Blog</a><span class="badge">SignUp to Submit a Post</span></li>
+				<li class="list-group-item"><a href="/signup">SignUp</a><span class="badge">SignUp is Free</span></li>
+				<li class="list-group-item"><a href="/welcome">Welcome</a><span class="badge">You must be logged in</span></li>
+				<li class="list-group-item"><a href="/rot13">Rot13</a><span class="badge">Just Funny Stuff</span></li>
+			</ul>
+		</div>
+	  </div>
+	</div>
+	<div class="col-md-6">
+    <div class="panel panel-default">
+		<div class="panel-body">
+			You can visit Personal Website if you want to know more about me!<br><br>
+			<a href="http://www.davidduckwitz.de">DavidDuckwitz.de</a><hr>
+			<a href="http://www.davidduckwitz.com">DavidDuckwitz.com</a><hr>
+			<p class="text-center">
+				<button title="About Me" class="btn navbar-btn btn-default" data-toggle="modal" data-target="#aboutme">About Me</button>
+			</p>
+		</div>
+	  </div>
+	</div>
+</div>
+{% endblock %}

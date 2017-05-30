@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+	<div class="col-md-12 text-center">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Update Comment</h2></div>
+			<div class="panel-body">
+
+				<form method="post" class="comment">
+					<label>
+						<div>Comment on {{subject}}</div>
+						<p>{{content}}</p>
+						<textarea class="form-control" name="comment">{{comment}}</textarea>
+					</label>
+					<div class="error">{{error}}</div>
+					<input class="btn btn-warning" type="submit" value="Update">
+					<a href="/blog" class="btn btn-danger">Cancel</a>
+				</form>
+				
+			</div>
+			<div class="panel-footer"></div>
+		</div>	
+	</div>
+</div>
+{% endblock %}

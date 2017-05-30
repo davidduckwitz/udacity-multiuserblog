@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+	<div class="col-md-12 text-center">
+		<div class="panel panel-default">
+			<div class="panel-heading"> <h2>Create a New post</h2></div>
+			<div class="panel-body">
+			 
+				<form method="post">
+					<div class="">
+					  <label>
+						<div>subject</div>
+						<input class="form-control" type="text" name="subject" value="{{subject}}">
+					  </label>
+					</div>
+
+					<div class="">
+					  <label>
+						<div>blog</div>
+						<textarea class="form-control" name="content">{{content}}</textarea>
+					  </label>
+					</div>
+
+					<input type="hidden" name="author" value="{{user.name}}">
+
+					<div class="error">{{error}}</div>
+
+					<input class="btn btn-success" type="submit">
+					<a href="/blog" class="btn btn-danger">Cancel</a>
+				</form>		
+		
+			</div>
+			<div class="panel-footer"></div>
+		</div>	
+	</div>
+</div>
+{% endblock %}
