@@ -76,7 +76,7 @@ class BlogHandler(webapp2.RequestHandler):
         uid = self.read_secure_cookie('user_id')
         self.user = uid and User.by_id(int(uid))
 
-#New Functions like suggestion in Review
+# New Functions like suggestion in Review
     def user_owns_post(self, post):
         return self.user.key == post.author
 
@@ -230,7 +230,7 @@ class Comment(db.Model):
 
 class UpdateComment(BlogHandler):
     def get(self, post_id, comment_id):
-        #Check if user is logged in
+        # Check if user is logged in
         if not self.user:
             return self.redirect("/login")
 		
@@ -246,14 +246,14 @@ class UpdateComment(BlogHandler):
             return self.redirect('/commenterror')
 
     def post(self, post_id, comment_id):
-        #Check if user is logged in
+        # Check if user is logged in
 	if not self.user:
             return self.redirect("/login")
 		
 		
         comment = Comment.get_by_id(int(comment_id),
                                     parent=self.user.key())
-	#Check if User is logged in / or is element created from me
+	# Check if User is logged in / or is element created from me
         if not self.user:
             return self.redirect("/login")
         
@@ -268,12 +268,12 @@ class DeleteComment(BlogHandler):
         comment = Comment.get_by_id(int(comment_id),
                                     parent=self.user.key())
 
-        #check if comment exists
+        # check if comment exists
         if not comment:
             return self.redirect("/login")
         
         author = comment.author
-	#Check if User is logged in / or is element created from me
+	# Check if User is logged in / or is element created from me
         if not self.user:
             return self.redirect("/login")
         
@@ -292,7 +292,7 @@ class CommentError(BlogHandler):
 
 class NewComment(BlogHandler):
     def get(self, post_id):
-	#Check if User is logged in / or is element created from me
+	# Check if User is logged in / or is element created from me
         if not self.user:
             return self.redirect("/login")
 
@@ -313,7 +313,7 @@ class NewComment(BlogHandler):
         if not post:
             self.error(404)
             return
-		#Check if User is logged in / or is element created from me
+		# Check if User is logged in / or is element created from me
         if not self.user:
             return self.redirect('login')
 
@@ -377,7 +377,7 @@ class PostPage(BlogHandler):
 
 class RemovePost(BlogHandler):
     def get(self, post_id):
-	#Check if User is logged in / or is element created from me
+	# Check if User is logged in / or is element created from me
         if not self.user:
             return self.redirect('/login')
         else:
@@ -387,7 +387,7 @@ class RemovePost(BlogHandler):
             post = db.get(key)
             author = post.author
             loggedUser = self.user.name
-			#Check if User is logged in / or is element created from me
+	    # Check if User is logged in / or is element created from me
             if author == loggedUser:
                 key = db.Key.from_path('Post',
                                        int(post_id),
@@ -400,7 +400,7 @@ class RemovePost(BlogHandler):
 
 
 class LikePost(BlogHandler):
-#Check if User is logged in / or is element created from me
+# Check if User is logged in / or is element created from me
     def get(self, post_id):
         if not self.user:
             return self.redirect('/login')
@@ -410,7 +410,7 @@ class LikePost(BlogHandler):
                                    parent=blog_key())
             post = db.get(key)
             author = post.author
-			#Check if User is logged in / or is element created from me
+	   # Check if User is logged in / or is element created from me
             logged_user = self.user.name
             if author == logged_user or logged_user in post.liked_by:
                 return self.redirect('/error')
@@ -422,7 +422,7 @@ class LikePost(BlogHandler):
 
 
 class EditPost(BlogHandler):
-#Check if User is logged in / have permissions to edit a post
+# Check if User is logged in / have permissions to edit a post
     def get(self, post_id):
         if not self.user:
             return self.redirect('/login')
@@ -433,7 +433,7 @@ class EditPost(BlogHandler):
             post = db.get(key)
             author = post.author
             loggedUser = self.user.name
-			#Check if PostAuthor is loggedIn User (Creator)
+	    # Check if PostAuthor is loggedIn User (Creator)
             if author == loggedUser:
                 key = db.Key.from_path('Post',
                                        int(post_id),
@@ -448,30 +448,32 @@ class EditPost(BlogHandler):
                 return self.redirect("/error")
 
     def post(self, post_id):
-		#Check if User is logged in / have permissions to edit a post
+	# Check if User is logged in / have permissions to edit a post
         if not self.user:
             return self.redirect("/login")
-			
+
+	key = db.Key.from_path('Post',
+                                   int(post_id),
+                                   parent=blog_key())
+        post = db.get(key)		
         author = post.author
-		#Check if this post is my post
+        
+	# Check if this post is my post
         loggedUser = self.user.name
         if not author == loggedUser:
             return self.redirect("/login")
         else:
-            key = db.Key.from_path('Post',
-                                   int(post_id),
-                                   parent=blog_key())
-            p = db.get(key)
-            p.subject = self.request.get('subject')
-            p.content = self.request.get('content')
-            p.put()
-            return self.redirect('/blog/%s' % str(p.key().id()))
+            
+            post.subject = self.request.get('subject')
+            post.content = self.request.get('content')
+            post.put()
+            return self.redirect('/blog/%s' % str(post.key().id()))
 
 
 
 
 class NewPost(BlogHandler):
-#Check if User is logged in / have permissions to create a post
+# Check if User is logged in / have permissions to create a post
     def get(self):
         if self.user:
             self.render("newpost.html")
