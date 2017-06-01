@@ -254,7 +254,7 @@ class UpdateComment(BlogHandler):
         comment = Comment.get_by_id(int(comment_id),
                                     parent=self.user.key())
 	# Check if User is logged in / or is element created from me
-        if not self.user:
+        if not comment:
             return self.redirect("/login")
         
         if comment.parent().key().id() == self.user.key().id():
@@ -393,6 +393,10 @@ class RemovePost(BlogHandler):
                                        int(post_id),
                                        parent=blog_key())
                 post = db.get(key)
+            # Check if that post exists
+                if not post:
+                    return self.error(404)                    
+                
                 post.delete()
                 self.render("removepost.html")
             else:
@@ -409,8 +413,12 @@ class LikePost(BlogHandler):
                                    int(post_id),
                                    parent=blog_key())
             post = db.get(key)
-            author = post.author
-	   # Check if User is logged in / or is element created from me
+            # Check if that post exists
+            if not post:
+                return self.error(404)
+            
+            author = post.author            
+	    # Check if User is logged in / or is element created from me
             logged_user = self.user.name
             if author == logged_user or logged_user in post.liked_by:
                 return self.redirect('/error')
@@ -439,6 +447,10 @@ class EditPost(BlogHandler):
                                        int(post_id),
                                        parent=blog_key())
                 post = db.get(key)
+                 # Check if that post exists
+                if not post:
+                    return self.error(404)
+            
                 error = ""
                 self.render("edit.html",
                             subject=post.subject,
@@ -455,7 +467,11 @@ class EditPost(BlogHandler):
 	key = db.Key.from_path('Post',
                                    int(post_id),
                                    parent=blog_key())
-        post = db.get(key)		
+        post = db.get(key)
+        # Check if that post exists
+        if not post:
+                    return self.error(404)
+                
         author = post.author
         
 	# Check if this post is my post
@@ -615,4 +631,4 @@ app = webapp2.WSGIApplication([('/?', Home),
                                 DeleteComment),
                                ('/commenterror', CommentError),
                                ],
-                              debug=True)
+debug=True)
